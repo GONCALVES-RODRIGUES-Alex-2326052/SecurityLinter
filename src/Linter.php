@@ -1,6 +1,7 @@
 <?php
 
 namespace GONCALVESRODRIGUES\SecurityLinter;
+
 class Linter{
     private static $rules = [
         'Protection XSS' => '/\$_(GET|POST|REQUEST|COOKIE)\[.*?\](?!.*htmlspecialchars|strip_tags)/',
@@ -47,5 +48,23 @@ class Linter{
             }
         }
         return $issues;
+    }
+
+    public static function runAndWarn($path, $stopOnIssues = false){
+        $issues = self::scanProjet($path);
+
+        if (empty($issues)) {
+            echo "Aucun problème de sécurité détecté. \n";
+        }else{
+            foreach($issues as $file => $problemes){
+                echo "Fichier : $file \n";
+                foreach($problemes as $probleme){
+                    echo " - $probleme \n";
+                }
+            }
+            if($stopOnIssues){
+                exit(1);
+            }
+        }
     }
 }
