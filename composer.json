@@ -1,0 +1,11 @@
+{
+    "name": "goncalves-rodrigues/security-linter",
+    "description": "Un linter pour la securité dun serv web en php",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "GONCALVESRODRIGUES\\SecurityLinter\\": "src/"
+        }
+    },
+    "require": {}
+}

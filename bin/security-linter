@@ -1,17 +1,21 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__ . '/Linter.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-use Linter;
+use SecurityLinter\Linter;
 
 echo "Vérification de la sécurité en cours....";
 $foundIssues = Linter::scanProjet(getcwd());
 
 if(!empty($foundIssues)){
     echo "Problemes de sécurité détectés : \n";
-    foreach($foundIssues as $issue){
-        echo $issue . "\n";
+    foreach($foundIssues as $file => $issues){
+        echo "[Fichier : $file]\n";
+        foreach ($issues as $issue) {
+            echo "- $issue\n";
+        }
+
     }
     echo "\n Commit refusé ! Veuillez corriger les erreurs avant de commiter le code. \n";
     exit(1);
