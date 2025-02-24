@@ -20,10 +20,11 @@ class Linter{
         $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
         foreach($files as $file){
-            if (pathinfo($file, PATHINFO_EXTENSION) == 'php') {
-                $issuescan = self::scanFiles($file);
+            $filePath = $file->getPathname();
+            if (pathinfo($filePath, PATHINFO_EXTENSION) == 'php') {
+                $issuescan = self::scanFiles($filePath);
                 if(!empty($issuescan)){
-                    $issues[$file] = $issuescan;
+                    $issues[$filePath] = $issuescan;
                 }
             }
         }
