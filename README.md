@@ -1,2 +1,2 @@
-# SecurityLinter
+# Security Linter
  
