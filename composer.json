@@ -2,10 +2,23 @@
     "name": "goncalves-rodrigues/security-linter",
     "description": "Un linter pour la securité dun serv web en php",
     "type": "library",
+    "keywords": ["security","linter","php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex G.R",
+            "email": "rodriguesalexfr@gmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "GONCALVESRODRIGUES\\SecurityLinter\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "php": ">=8.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    }
 }
