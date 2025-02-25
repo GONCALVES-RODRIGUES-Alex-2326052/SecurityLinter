@@ -4,7 +4,7 @@ namespace GONCALVESRODRIGUES\SecurityLinter;
 
 class Linter{
     private static $rules = [
-        'Protection XSS' => '/\$_(GET|POST|REQUEST|COOKIE)\[.*?\](?!.*htmlspecialchars|strip_tags|cleanXSSCustom)/',
+        'Protection XSS' => '/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\](?!\s*=\s*(htmlspecialchars|strip_tags|cleanXSSCustom)\()/',
         'SQL Injection'  => '/mysqli_query\(.*?\$.*?\)/'
     ];
 
