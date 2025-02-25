@@ -17,9 +17,23 @@ if(!empty($foundIssues)){
         }
 
     }
-    echo "\n Commit refusé ! Veuillez corriger les erreurs avant de commiter le code. \n";
-    exit(1);
-}
 
-echo "Aucun problème détecté. Vous pouvez commit le code :D \n";
+    echo "\n Voulez-vous corriger automatiquement ces erreurs ? (y/n) : ";
+    $handle = fopen ("php://stdin","r");
+    $answer = trim(fgets($handle));
+    fclose($handle);
+
+    if (strtolower($answer) == 'y') {
+        echo "Correction des erreurs en cours... \n";
+        foreach(array_keys($foundIssues) as $filePath){
+            Linter::autoFixXSS($filePath);
+        }
+        echo "Toutes les erreurs détectées ont été corrigées ! \n";
+    }else{
+        echo "Les erreurs doivent être corrigées manuellement avant de pouvoir continuer. \n";
+        exit(1);
+    }
+}else{
+    echo "Aucun problème détecté. Vous pouvez commit le code :D \n";
+}
 exit(0);

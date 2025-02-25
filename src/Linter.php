@@ -68,4 +68,22 @@ class Linter{
             }
         }
     }
+
+    public static function autoFixXSS($filePath){
+        $lines = file($filePath, FILE_IGNORE_NEW_LINES);
+        $modified = false;
+
+        foreach ($lines as $i => $line) {
+            if(preg_match('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\](?!\s*=\s*(htmlspecialchars|strip_tags|cleanXSSCustom)\()/i', $line)){
+                $lines[$i]= preg_replace('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\]/i', 'cleanXSSCustom($1)', $line);
+                $modified = true;
+            }
+        }
+
+        if($modified){
+            file_put_contents($filePath, implode("\n", $lines));
+            echo "Fichier corrigé : $filePath \n";
+        }
+    }
+
 }
