@@ -51,24 +51,22 @@ class Linter{
         return $issues;
     }
 
-    public static function autoFixXSS($filePath)
-    {
-        $lines = file($filePath, FILE_IGNORE_NEW_LINES);
-        $modified = false;
-
-        foreach ($lines as $i => $line) {
-            if(preg_match('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\](?!\s*=\s*(htmlspecialchars|strip_tags|cleanXSSCustom)\()/i', $line)){
-                $lines[$i]= preg_replace('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\]/i', 'cleanXSSCustom($1)', $line);
-                $modified = true;
-            }
-        }
-
-        if($modified){
-            file_put_contents($filePath, implode("\n", $lines));
-            echo "Fichier corrigé : $filePath \n";
-        }
-    }
-
+    /**
+     * Scanne le projet pour detecter des problèmes de sécurité et gènère un rapport
+     *
+     * @param string $path Chemin vers le répertoire ou le fichier à analyser (peut-etre absolue ou relatifs).
+     *
+     * @return array Retourne un tableau associatif contenant les problèmes détectés.
+     *
+     * Exemple de retour :
+     * [
+     *      "/path/vers/fichier1" => [
+     *          "probleme 1",
+     *          "probleme 2"
+     *      ],
+     *      ...
+     * ]
+     */
     public static function scanAndReport($path)
     {
         $issues = self::scanProjet($path);
@@ -84,6 +82,36 @@ class Linter{
             echo "Aucun problème de sécurité détecté. \n";
         }
         return $issues;
+    }
+
+    /**
+     * Analyse le fichier PHP et applique une correction automatique pour revenir des failles XSS.
+     *
+     * @param string $filePath Chemin vers le fichier PHP à corriger
+     * @return void Méthode qui retourne un void mais modifie directement le contenue du fichier analysé.
+     *
+     * Fonctionnalités :
+     * - Identifie les superglobales vulnérables comme $_GET, $_POST, $_REQUEST, $_COOKIE.
+     * - Les encapsule dans une fonction de nettoyage : cleanXSSCustom().
+     * - Écrit les corrections directement dans le fichier spécifié.
+     * - Affiche un message si le fichier a été corrigé.
+     */
+    public static function autoFixXSS($filePath)
+    {
+        $lines = file($filePath, FILE_IGNORE_NEW_LINES);
+        $modified = false;
+
+        foreach ($lines as $i => $line) {
+            if(preg_match('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\]/i', $line)){
+                $lines[$i]= preg_replace('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\]/i', 'cleanXSSCustom($0)', $line);
+                $modified = true;
+            }
+        }
+
+        if($modified){
+            file_put_contents($filePath, implode("\n", $lines));
+            echo "Fichier corrigé : $filePath \n";
+        }
     }
 
 }
