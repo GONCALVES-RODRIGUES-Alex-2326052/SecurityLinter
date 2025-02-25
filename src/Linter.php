@@ -1,6 +1,6 @@
 <?php
 
-namespace GONCALVESRODRIGUES\SecurityLinter;
+namespace SecurityLinter;
 
 class Linter{
     private static $rules = [
