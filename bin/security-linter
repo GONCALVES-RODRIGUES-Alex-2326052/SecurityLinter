@@ -6,7 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use SecurityLinter\Linter;
 
 echo "Vérification de la sécurité en cours....";
-$foundIssues = Linter::scanProjet(getcwd());
+$foundIssues = Linter::ScanAndReport(getcwd());
 
 if(!empty($foundIssues)){
     echo "Problemes de sécurité détectés : \n";

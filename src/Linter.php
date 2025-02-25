@@ -51,25 +51,8 @@ class Linter{
         return $issues;
     }
 
-    public static function runAndWarn($path, $stopOnIssues = false){
-        $issues = self::scanProjet($path);
-
-        if (empty($issues)) {
-            echo "Aucun problème de sécurité détecté. \n";
-        }else{
-            foreach($issues as $file => $problemes){
-                echo "Fichier : $file \n";
-                foreach($problemes as $probleme){
-                    echo " - $probleme \n";
-                }
-            }
-            if($stopOnIssues){
-                exit(1);
-            }
-        }
-    }
-
-    public static function autoFixXSS($filePath){
+    public static function autoFixXSS($filePath)
+    {
         $lines = file($filePath, FILE_IGNORE_NEW_LINES);
         $modified = false;
 
@@ -84,6 +67,23 @@ class Linter{
             file_put_contents($filePath, implode("\n", $lines));
             echo "Fichier corrigé : $filePath \n";
         }
+    }
+
+    public static function scanAndReport($path)
+    {
+        $issues = self::scanProjet($path);
+
+        if (!empty($issues)) {
+            foreach($issues as $file => $problems) {
+                echo "Fichier : $file \n";
+                foreach ($problems as $problem) {
+                    echo " - $problem \n";
+                }
+            }
+        }else{
+            echo "Aucun problème de sécurité détecté. \n";
+        }
+        return $issues;
     }
 
 }
