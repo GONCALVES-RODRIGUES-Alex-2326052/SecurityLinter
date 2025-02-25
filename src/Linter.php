@@ -57,8 +57,8 @@ class Linter{
         $modified = false;
 
         foreach ($lines as $i => $line) {
-            if(preg_match('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\](?!\s*=\s*(htmlspecialchars|strip_tags|cleanXSSCustom)\()/i', $line)){
-                $lines[$i]= preg_replace('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\]/i', 'cleanXSSCustom($1)', $line);
+            if(preg_match('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\]/i', $line)){
+                $lines[$i]= preg_replace('/\$_(GET|POST|REQUEST|COOKIE)\[[^\]]+\]/i', 'cleanXSSCustom($0)', $line);
                 $modified = true;
             }
         }

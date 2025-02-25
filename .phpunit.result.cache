@@ -1,0 +1,1 @@
+{"version":1,"defects":{"LinterTest::testAutoFixXSS":8,"LinterTest::testAutoFixXSSWithSafeCode":8},"times":{"LinterTest::testAutoFixXSS":0.008,"LinterTest::testAutoFixXSSWithSafeCode":0.001}}
