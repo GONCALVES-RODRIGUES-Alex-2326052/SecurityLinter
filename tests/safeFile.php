@@ -1,2 +1,2 @@
 <?php
-$variable = htmlspecialchars(cleanXSSCustom($_POST['data']));
+$variable = htmlspecialchars($protectionXSS->cleanXSSCustom($_POST['data']));
